@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="windows-1252" ?>
+<persistence xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+             version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
+    <persistence-unit name="hitCheck" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>com.kib.weblab3.beans.HitCheckResult</class>
+        <class>com.kib.weblab3.entity.TagEntity</class>
+        <properties>
+            <property name="eclipselink.target-server" value="JBoss"/>
+            <property name="eclipselink.logging.level" value="FINE"/>
+            <property name="eclipselink.logging.thread" value="false"/>
+            <property name="eclipselink.logging.session" value="false"/>
+            <property name="eclipselink.logging.timestamp" value="false"/>
+            <property name="eclipselink.logging.exceptions" value="false"/>
+
+            <!-- The following properties should be customized to run the example -->
+            <property name="eclipselink.jdbc.url" value="jdbc:postgresql://localhost:5432/postgres"/>
+            <property name="eclipselink.jdbc.user" value="postgres"/>
+            <property name="eclipselink.jdbc.password" value="postgres"/>
+            <property name="eclipselink.jdbc.driver" value="org.postgresql.Driver"/>
+            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+        </properties>
+    </persistence-unit>
+
+<!--    <persistence-unit name="HIT_TAGS_COMPOSITION">-->
+<!--        <class>com.kib.weblab3.beans.HitCheckResult</class>-->
+<!--        <class>com.kib.weblab3.entity.TagEntity</class>-->
+<!--        <properties>-->
+<!--            <property name="eclipselink.target-server" value="JBoss"/>-->
+<!--            <property name="eclipselink.logging.level" value="FINE"/>-->
+<!--            <property name="eclipselink.logging.thread" value="false"/>-->
+<!--            <property name="eclipselink.logging.session" value="false"/>-->
+<!--            <property name="eclipselink.logging.timestamp" value="false"/>-->
+<!--            <property name="eclipselink.logging.exceptions" value="false"/>-->
+
+<!--            <property name="eclipselink.jdbc.url" value="jdbc:postgresql://localhost:5432/postgres"/>-->
+<!--            <property name="eclipselink.jdbc.user" value="postgres"/>-->
+<!--            <property name="eclipselink.jdbc.password" value="postgres"/>-->
+<!--            <property name="eclipselink.jdbc.driver" value="org.postgresql.Driver"/>-->
+<!--            <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>-->
+<!--        </properties>-->
+<!--    </persistence-unit>-->
+</persistence>

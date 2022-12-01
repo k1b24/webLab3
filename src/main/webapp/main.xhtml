@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <meta charset="utf-8"/>
+    <title>Web 3rd lab</title>
+<!--    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>-->
+<!--    <script src="../src/js/update.js"></script>-->
+<!--    <script src="../src/js/validator.js"></script>-->
+    <script type="text/javascript" charset="UTF-8"
+            src="https://cdn.jsdelivr.net/npm/jsxgraph/distrib/jsxgraphcore.js"/>
+    <script src="js/cleaner.js"/>
+    <script src="js/length_checker.js"/>
+    <script src="js/graph.js"/>
+
+<!--    <script src="../src/js/process_x_selection.js"></script>-->
+<!--    <script src="../src/js/result_table_updater.js" defer></script>-->
+    <link href="css/main.css" rel="stylesheet"/>
+</h:head>
+
+<body>
+<table class="form_table">
+    <tr>
+        <td class="header">
+            <span>Лазеев Сергей P32111 1101</span>
+            <span class="index-menu"><h:link outcome="jumpToIndex">
+                Перейти к начальной странице
+            </h:link></span>
+
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table class="main_table">
+                <tr>
+                    <td class="plot_column">
+                        <div id="jxgbox" class="jxgbox"></div>
+<!--                        <button class="points_clean" id="points_clean" type="button" onclick="drawPlot()">Удалить точки</button>-->
+                    </td>
+
+                    <td class="form_column">
+                        <section class="user_input">
+                            <h:form id="form">
+                                <div class="values">
+                                    <div class="x_value">
+                                        <label for="x_value">Введите X</label>
+                                        <h:inputText type="text" id="x_value" value="#{hitCheckResult.x}" required="true"
+                                                     requiredMessage="Введите X" validatorMessage="X ∈ [-5; 5]">
+                                            <f:validateDoubleRange minimum="-5" maximum="5" />
+                                        </h:inputText>
+                                    </div>
+
+                                    <div class="y_value">
+                                        <label for="y_value">Укажите Y</label>
+                                        <h:outputText id="y_value_output" value="#{hitCheckResult.y}" />
+                                        <p:slider for="y_value" step="0.1" minValue="-4" maxValue="4" display="y_value_output" displayTemplate="{value}"/>
+                                        <h:inputHidden id="y_value" value="#{hitCheckResult.y}" required="true"
+                                                     requiredMessage="Введите Y"/>
+                                    </div>
+
+                                    <div class="r_value">
+                                        <label for="r_value">Укажите R</label>
+                                        <h:selectOneMenu id="r_value" value="#{table.currentR}">
+                                            <f:selectItem itemValue = "1" itemLabel = "1" />
+                                            <f:selectItem itemValue = "2" itemLabel = "2" />
+                                            <f:selectItem itemValue = "3" itemLabel = "3" />
+                                            <f:selectItem itemValue = "4" itemLabel = "4" />
+                                            <f:selectItem itemValue = "5" itemLabel = "5" />
+                                        </h:selectOneMenu>
+                                    </div>
+
+                                    <div class="tags_value">
+                                        <label for="x_value">Введите теги</label>
+                                        <h:inputText type="text" id="tags_value" value="#{tagInputBean.tags}" validator="tagInputValidator">
+
+                                        </h:inputText>
+                                    </div>
+                                </div>
+
+                                <div class="buttons">
+                                    <div class="sergay">
+                                        <h:commandButton id="reset" type="button" value="Reset" onclick="resetInput()">
+                                            <f:ajax render="r_value y_value x_value tags_value"/>
+                                        </h:commandButton>
+                                    </div>
+                                    <div>
+                                        <h:commandButton id="submit_button" value="Check" action="#{table.addToTable(hitCheckResult, tagInputBean)}">
+                                            <f:ajax execute="x_value y_value r_value tags_value" render="result_table x_error tags_error point_script"/>
+                                        </h:commandButton>
+                                    </div>
+                                    <h:commandButton style="display: none" id="r_change_processor">
+                                        <f:ajax execute="r_value" render="point_script"/>
+                                    </h:commandButton>
+
+                                    <h:panelGroup id="point_script">
+                                        <h:outputScript>
+                                            function updatePoints() {
+                                                drawPlot();
+                                                if (board !== null) {
+                                                    let serverPoints = [
+                                                        <ui:repeat value="#{table.allResultsByR}" var="hit">
+                                                            {x: #{hit.x}, y: #{hit.y}, r: #{hit.r}, success: #{hit.hitResult}},
+                                                        </ui:repeat>
+                                                    ];
+                                                    drawPointsByR($('[id="form:r_value"]').val(), serverPoints);
+                                                }
+                                            }
+                                            updatePoints()
+                                        </h:outputScript>
+                                    </h:panelGroup>
+                                </div>
+
+                                <div class="validation_info">
+                                    <h:message for="x_value" id="x_error"/>
+                                    <br/>
+                                    <h:message for="tags_value" id="tags_error"/>
+                                </div>
+                            </h:form>
+                        </section>
+                    </td>
+                    <td class="result_table_column">
+                        <div class="clean_button">
+                            <h:commandButton type="button" value="Reset" action="#{table.clear()}" onclick="drawPlot()">
+                                <f:ajax render="result_table"/>
+                            </h:commandButton>
+                        </div>
+                        <h:form class="tags_form">
+                                <label for="x_value">Введите теги для фильтрации</label>
+                                <h:inputText type="text" id="tags_filter" validator="tagInputValidator" value="#{table.appliedTags}">
+
+                                </h:inputText>
+                                <h:commandButton id="submit_tags_filter_button" value="Filter">
+                                    <f:ajax execute="tags_filter" render="result_table point_script_with_filters tags_filter_error"/>
+                                </h:commandButton>
+                                <h:message for="tags_filter" id="tags_filter_error"/>
+
+                                <h:panelGroup id="point_script_with_filters">
+                                    <h:outputScript>
+                                        function updatePoints() {
+                                            drawPlot();
+                                            if (board !== null) {
+                                                let serverPoints = [
+                                                    <ui:repeat value="#{table.allResultsByR}" var="hit">
+                                                        {x: #{hit.x}, y: #{hit.y}, r: #{hit.r}, success: #{hit.hitResult}},
+                                                    </ui:repeat>
+                                                ];
+                                                drawPointsByR($('[id="form:r_value"]').val(), serverPoints);
+                                            }
+                                        }
+                                        updatePoints()
+                                    </h:outputScript>
+                                </h:panelGroup>
+                        </h:form>
+                        <h:dataTable id="result_table" value="#{table.getAllResults()}" var="hitCheckResult">
+                            <h:column>
+                                <f:facet name="header">X</f:facet>
+                                #{hitCheckResult.x}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Y</f:facet>
+                                #{hitCheckResult.y}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">R</f:facet>
+                                #{hitCheckResult.r}
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Текущее время</f:facet>
+                                <h:outputText value="#{hitCheckResult.date}">
+                                    <f:convertDateTime type="zonedDateTime" pattern="yyyy-MM-dd HH:mm:ss"/>
+                                </h:outputText>
+                            </h:column>
+
+                            <h:column>
+                                <f:facet name="header">Результат</f:facet>
+                                #{hitCheckResult.hitResult}
+                            </h:column>
+                            <h:column>
+                                <f:facet name="header">Теги</f:facet>
+                                <ui:repeat value="#{hitCheckResult.tagEntities}" var="tagList">
+                                            #{tagList.name}
+                                </ui:repeat>
+                            </h:column>
+                        </h:dataTable>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

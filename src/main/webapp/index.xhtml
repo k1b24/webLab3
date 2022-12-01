@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+
+<h:head>
+    <link href="css/index.css" rel="stylesheet"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/index.js"></script>
+</h:head>
+<h:body onload="insertTimeInPage()">
+    <header class="author">
+        <p> Лазеев Сергей | P32111 | 1101 </p>
+    </header>
+    <main>
+
+        <section class="main_section">
+            <h2 class="start_text">Hello there</h2>
+
+            <p class="datetime">
+                <span class="datetime_date"> <!-- Date from JS --> </span>
+                <br/>
+                <span class="datetime_time"> <!-- Time from JS --> </span>
+            </p>
+
+            <div class="index-menu">
+                <h:link styleClass="index-menu" outcome="jumpToMain">
+                    Перейти к основной странице
+                </h:link>
+            </div>
+        </section>
+    </main>
+</h:body>
+</html>

@@ -1,0 +1,164 @@
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #cbf3ea;
+    color: rgba(0, 0, 0, 0.92);
+    width: 100%;
+}
+
+.form_table {
+    border-spacing: 0;
+    width: 100%;
+    height: 100%;
+    table-layout: fixed;
+}
+
+
+.header {
+    background-color: #8ac6d1;
+    font-family: monospace;
+    font-size: 200%;
+    font-weight: 700;
+    text-align: center;
+}
+
+.form_table tr td {
+    vertical-align: top;
+    padding: 0;
+    margin: 0;
+}
+
+/* Селектор псевдоэлемента */
+::selection {
+    background: #cbf3ea;
+}
+
+.main_table {
+    width: 100vw;
+}
+
+.main_table tr td {
+    padding: 0;
+    margin: 0;
+    vertical-align: top;
+    text-align: center;
+}
+
+.plot_column {
+    align-items: center;
+    margin-top: 60px;
+    font-size: 80%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.jxgbox {
+    width: 300px;
+    height: 300px;
+    margin: 10%;
+}
+
+.form_column {
+    width: 20%;
+}
+
+.result_table_column {
+    width: 60%;
+    min-width: 450px;
+    min-height: 200px;
+}
+
+.clean_button {
+    margin-top: 60px;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+}
+
+.clean_button input {
+    border-radius: 10px 10px 10px 10px;
+}
+
+#result_table {
+    justify-content: center;
+    text-align: center;
+    border-radius: 20px 20px 20px 20px;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 90%;
+    background-color: #ffffff;
+    border: 3px solid #ffd4d5;
+    margin: 2% auto auto;
+    width: 90%;
+}
+
+#result_table td, th {
+    padding: 2%;
+}
+
+.tags_form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 2%;
+    width: 30%;
+    margin-left: 35%;
+}
+
+.user_input {
+    display: flex;
+    justify-content: center;
+    height: 400px;
+    background: #ffffff;
+    border: 5px solid #ffb6b9;
+    border-radius: 20px 20px 20px 20px;
+    margin: 60px 50px 50px;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.user_input .values {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    /*margin: 25px;*/
+    padding: 10%;
+}
+
+.user_input .values div {
+    justify-content: center;
+    display: flex;
+    flex-direction: column;
+    font-size: 100%;
+}
+
+.user_input .values .x_value {
+    margin: 5%;
+}
+
+.user_input .values .y_value label {
+    margin: 5%;
+}
+
+.user_input .values .y_value>span {
+    margin-bottom: 10%;
+}
+
+.user_input .values .r_value {
+    padding: 10%;
+    margin: 5%;
+}
+
+.user_input .buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    text-align: center;
+    position: unset;
+}
+
+.user_input .validation_info {
+    margin-top: 5%;
+    font-size: 60%;
+
+}
